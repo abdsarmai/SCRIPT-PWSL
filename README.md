@@ -1,5 +1,5 @@
 # SCRIPT-PWSL
-Projet de Abdallah.
+Projet de Abdallah (test pour le stage)
 
 
 Le but est de mettre en place un programme qui permet d'ajouter un ou plusieurs utilisateurs sans avoir à le faire manuellement !
