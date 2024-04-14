@@ -1,0 +1,5 @@
+Name,GivenName,Surname,SamAccountName,UserPrincipalName,EmailAddress,Path,Password
+John Doe,John,Doe,jdoe,jdoe@latech.local,jdoe@latech.local,"OU=Adhérents,OU=LATECH,DC=latech,DC=local",Password123
+Jane Smith,Jane,Smith,jsmith,jsmith@latech.local,jsmith@latech.local,"OU=Adhérents,OU=LATECH,DC=latech,DC=local",Password456
+Alice Johnson,Alice,Johnson,ajohnson,ajohnson@latech.local,ajohnson@latech.local,"OU=Adhérents,OU=LATECH,DC=latech,DC=local",Password789
+Bob Brown,Bob,Brown,bbrown,bbrown@latech.local,bbrown@latech.local,"OU=Adhérents,OU=LATECH,DC=latech,DC=local",Passwordabc
