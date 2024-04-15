@@ -1,38 +1,35 @@
-# Liste des utilisateurs à créer
-$users = @(
-    @{
-        Name = "John Doe"
-        GivenName = "John"
-        Surname = "Doe"
-        SamAccountName = "jdoe"
-        UserPrincipalName = "jdoe@latech.local"
-        EmailAddress = "jdoe@latech.local"
-        Path = "OU=Adhérents,OU=LATECH,DC=latech,DC=local"
-        Password = "Password123"
-    },
-    @{
-        Name = "Jane Smith"
-        GivenName = "Jane"
-        Surname = "Smith"
-        SamAccountName = "jsmith"
-        UserPrincipalName = "jsmith@latech.local"
-        EmailAddress = "jsmith@latech.local"
-        Path = "OU=Adhérents,OU=LATECH,DC=latech,DC=local"
-        Password = "Password456"
-    }
-    # Ajoutez d'autres utilisateurs ici si nécessaire
-)
+$CSVFile = "C:\Users\AdminDomainIRO\Documents\utilisateurs.csv"
+$CSVData = Import-CSV -Path $CSVFile -Delimiter ";" -Encoding UTF8
 
-# Boucle à travers la liste des utilisateurs
-foreach ($user in $users) {
-    New-ADUser -Name $user.Name `
-               -GivenName $user.GivenName `
-               -Surname $user.Surname `
-               -SamAccountName $user.SamAccountName `
-               -UserPrincipalName $user.UserPrincipalName `
-               -EmailAddress $user.EmailAddress `
-               -Path $user.Path `
-               -AccountPassword (ConvertTo-SecureString $user.Password -AsPlainText -Force) `
-               -ChangePasswordAtLogon $true `
-               -Enabled $true
+
+Foreach($Utilisateur in $CSVData){
+
+    $UtilisateurPrenom = $Utilisateur.Prenom
+    $UtilisateurNom = $Utilisateur.Nom
+    $UtilisateurLogin = $UtilisateurPrenom.Substring(0,1).ToLower() + "." + $UtilisateurNom
+    $UtilisateurEmail = "$UtilisateurLogin@latech.local"
+    $UtilisateurMotDePasse = "Azerty@tech94"
+    $UtilisateurFonction = $Utilisateur.Fonction
+
+    if (Get-ADUser -Filter {SamAccountName -eq $UtilisateurLogin})
+    {
+        Write-Warning "L'identifiant $UtilisateurLogin existe déjà dans l'AD"
+    }
+    else
+    {
+        New-ADUser -Name "$UtilisateurNom $UtilisateurPrenom" `
+                    -DisplayName "$UtilisateurNom $UtilisateurPrenom" `
+                    -GivenName $UtilisateurPrenom `
+                    -Surname $UtilisateurNom `
+                    -SamAccountName $UtilisateurLogin `
+                    -UserPrincipalName "$UtilisateurLogin@latech.local" `
+                    -EmailAddress $UtilisateurEmail `
+                    -Title $UtilisateurFonction `
+                    -Path "OU=Adhérents,OU=LATECH,DC=LATECH,DC=LOCAL" `
+                    -AccountPassword (ConvertTo-SecureString $UtilisateurMotDePasse -AsPlainText -Force) `
+                    -ChangePasswordAtLogon $true `
+                    -Enabled $true `
+
+        Write-Output "Création de l'utilisateur : $UtilisateurLogin ($UtilisateurNom $UtilisateurPrenom)"
+    }
 }
