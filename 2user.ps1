@@ -1,4 +1,4 @@
-$CSVFile = "C:\Users\AdminDomainIRO\Documents\utilisateurs.csv"
+$CSVFile = "Chemin du fichier .csv"
 $CSVData = Import-CSV -Path $CSVFile -Delimiter ";" -Encoding UTF8
 
 
